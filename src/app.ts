@@ -6,6 +6,7 @@ import * as fs from "fs";
 import path = require('path');
 import {getRandomInt} from "./common/utils";
 import {T1, T2, T3} from "./problems/finansakan";
+import {T21, T22, T23, T24} from "./problems/finansakan2";
 
 
 
@@ -17,15 +18,19 @@ export class App {
 
     @cached
     private get t1(){
-        return T1.createProblems(true);
+        return T21.createProblems(true);
     }
     @cached
     private get t2(){
-        return T2.createProblems(true);
+        return T22.createProblems(true);
     }
     @cached
     private get t3(){
-        return T3.createProblems(true);
+        return T23.createProblems(true);
+    }
+    @cached
+    private get t4(){
+        return T24.createProblems(true);
     }
     @cached
     private get tasks(){
@@ -33,6 +38,7 @@ export class App {
             this.t1,
             this.t2,
             this.t3,
+            this.t4,
         ]
     }
 
@@ -58,7 +64,7 @@ export class App {
         for(let i = 0;i<this.t1.length;i++){
             let ticket = [];
             ticket.push(this.questions[i%this.questions.length]);
-            let task = this.tasks[getRandomInt(0,2)][i];
+            let task = this.tasks[getRandomInt(0,3)][i];
             a.push([
                 task.getFormula(),
                 task.getApproxFormula(),
