@@ -54,9 +54,9 @@ export class App {
         console.info("Started",{
             questions : this.questions
         });
-        let tickets = this.createQuestionsWithTasks();
+        let tickets = this.createQuestions(2,true,25);
         this.toFile(tickets.questions);
-        this.toCsvFile(tickets.answers)
+        //this.toCsvFile(tickets.answers)
     }
 
     public createQuestionsWithTasks(answers=true){
@@ -78,7 +78,7 @@ export class App {
         };
     }
 
-    public createQuestions(count:number){
+    public createQuestions(count:number,random = false,limit = 0){
         let q = this.questions.slice();
         if(q.length<count){
             throw new Error("Questions are not enough")
@@ -108,11 +108,24 @@ export class App {
                 strings.push(str)
             }
         });
-        return questions.map(t=>{
+        questions = questions.map(t=>{
             return t.map(q=>{
                 return this.questions[q]
             })
-        })
+        });
+        if(random){
+            let arr = [], copy = [].concat(questions);
+            while (copy.length){
+                let index = getRandomInt(0,copy.length - 1);
+                arr.push(copy[index]);
+                copy.splice(index,1)
+            }
+            questions = arr;
+        }
+        if(limit){
+            questions = questions.splice(0,limit);
+        }
+        return {questions};
     }
 
     public toString(questions,random = true){
