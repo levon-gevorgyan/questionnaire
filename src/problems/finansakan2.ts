@@ -52,7 +52,7 @@ export class T21 extends DefaultTask2 {
     }
 
     public toString(){
-        return `Ինչքա՞ն գումար կհավաքվի ${this.n} տարի հետո, եթե ավանդ դնենք ${this.PMT} դրամ յուրաքանչյուր տարվա վերջում, որտեղ տարեկան տոկոսադրույքը ${this.i}% է։`
+        return `Ինչքա՞ն գումար կհավաքվի ${this.n} տարի հետո, եթե ավանդ դնենք ${this.PMT} դրամ յուրաքանչյուր տարվա վերջում, երբ տարեկան տոկոսադրույքը ${this.i}% է։`
     }
     public toStringWithAnswers(){
         return `${this.answers?`${this.getFormula()}| `:''}${this.toString()}`
@@ -84,7 +84,7 @@ export class T22 extends DefaultTask2 {
     }
 
     public toString(){
-        return `Ինչքա՞ն գումար կհավաքվի ${this.n} տարի հետո, եթե ավանդ դնենք ${this.PMT} դրամ յուրաքանչյուր տարվա սկզբում, որտեղ տարեկան տոկոսադրույքը ${this.i}% է։`
+        return `Ինչքա՞ն գումար կհավաքվի ${this.n} տարի հետո, եթե ավանդ դնենք ${this.PMT} դրամ յուրաքանչյուր տարվա սկզբում, երբ տարեկան տոկոսադրույքը ${this.i}% է։`
     }
     public toStringWithAnswers(){
         return `${this.answers?`${this.getFormula()}| `:''}${this.toString()}`

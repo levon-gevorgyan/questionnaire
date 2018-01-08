@@ -7,6 +7,7 @@ import path = require('path');
 import {getRandomInt} from "./common/utils";
 import {T1, T2, T3} from "./problems/finansakan";
 import {T21, T22, T23, T24} from "./problems/finansakan2";
+import {Template} from "./templates/template";
 
 
 
@@ -33,6 +34,18 @@ export class App {
         return T24.createProblems(true);
     }
     @cached
+    private get t5(){
+        return T1.createProblems(true);
+    }
+    @cached
+    private get t6(){
+        return T2.createProblems(true);
+    }
+    @cached
+    private get t7(){
+        return T3.createProblems(true);
+    }
+    @cached
     private get tasks(){
         return [
             this.t1,
@@ -40,6 +53,18 @@ export class App {
             this.t3,
             this.t4,
         ]
+    }
+
+    @cached
+    private get template(){
+        return new Template({
+            year            : 2017,
+            term            : "I",
+            course          : "III",
+            subject         : "Ֆինանսական մենեջմենթ",
+            //specialization  : `Կառավարում`,
+            date            : new Date(2018,0,11)
+        })
     }
 
 
@@ -51,26 +76,26 @@ export class App {
     }
 
     public start(){
-        console.info("Started",{
+        /*console.info("Started",{
             questions : this.questions
-        });
-        let tickets = this.createQuestions(2,true,25);
+        });*/
+        let tickets:any = this.createQuestionsWithTasks(2,true);
         this.toFile(tickets.questions);
-        //this.toCsvFile(tickets.answers)
+        if(tickets.answers){
+            this.toCsvFile(tickets.answers)
+        }
     }
 
-    public createQuestionsWithTasks(answers=true){
-        let a=[],q = [];
+    public createQuestionsWithTasks(count:number,random = false){
+        let q = this.createQuestions(count,random,this.tasks[0].length).questions;
+        let a = [];
         for(let i = 0;i<this.t1.length;i++){
-            let ticket = [];
-            ticket.push(this.questions[i%this.questions.length]);
-            let task = this.tasks[getRandomInt(0,3)][i];
+            let task = this.tasks[getRandomInt(0,this.tasks.length-1)][i];
             a.push([
                 task.getFormula(),
                 task.getApproxFormula(),
             ]);
-            ticket.push(`Խնդիր։ ${task.toString()}`);
-            q.push(ticket)
+            q[i].push(`Խնդիր։ ${task.toString()}`)
         }
         return {
             questions : q,
@@ -137,12 +162,9 @@ export class App {
                 questions.push(tmp.splice(index,1)[0]);
             }
         }
-        let str = template.header;
+        let str = "";
         questions.forEach((q,i)=>{
-            str += "\n"+template.title + (i+1) + "\n\n";
-            q.forEach(((h,j)=>{
-                str += `${(j+1)}. ${h}\n`;
-            }))
+            str += "\n"+ this.template.getTemplate(i+1,q) + "\n\n";
         });
         console.info(str);
         return str;
